@@ -1,5 +1,6 @@
 {
   "port": 3000,
   "log_level": "dev",
-  "private_key": "video_stream"
+  "private_key": "video_stream",
+  "auth_header": "x-auth"
 }

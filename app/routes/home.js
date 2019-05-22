@@ -1,11 +1,8 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const authMiddleware = require('../middlewares/AuthMiddleware');
 
-router.get('/', (req, res) => {
-    if (req.auth == null) {
-        res.redirect('/');
-        return;
-    }
+router.get('/', authMiddleware.auth, (req, res) => {
     res.render('home', {title: 'Home'});
 });
 
