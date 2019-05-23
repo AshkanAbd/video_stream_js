@@ -5,17 +5,15 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const appDebugger = require('debug')('app:app');
+
 const app = express();
 
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+const chatSetup = require('./middlewares/RealtimeChatHandler');
 
-// Load socket IO and realtime chat
-io.on('connection', (socket) => {
-    socket.on('msg', (msg) => {
-        io.emit('msg', msg);
-    })
-});
+// Load socket io
+chatSetup.inti(io);
 
 // Load routes
 const rootRouter = require('./routes');
