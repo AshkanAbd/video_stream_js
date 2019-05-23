@@ -7,8 +7,18 @@ const morgan = require('morgan');
 const appDebugger = require('debug')('app:app');
 const app = express();
 
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+
+// Load socket IO and realtime chat
+io.on('connection', (socket) => {
+    socket.on('msg', (msg) => {
+        io.emit('msg', msg);
+    })
+});
+
 // Load routes
-const rootRouter = require('./routes/index');
+const rootRouter = require('./routes');
 const homeRouter = require('./routes/home');
 const signInRouter = require('./routes/auth/sign_in');
 const signUpRouter = require('./routes/auth/sign_up');
@@ -47,5 +57,5 @@ app.use(function (err, req, res, next) {
     res.render('error', {title: 'Error', errorCode: `Error : ${err.status}`});
 });
 
-app.listen(config.get("port"));
+http.listen(config.get("port"));
 appDebugger(`Port: ${config.get("port")}`);

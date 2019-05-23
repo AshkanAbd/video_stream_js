@@ -23,7 +23,7 @@ async function signInPost(req, res) {
     }
     const token = user.addAuthToken();
     // const token = jwt.sign({_id: user.id, username: user.username}, config.get('private_key'));
-    res.cookie(config.get('auth_header'), token, {expires: new Date(Date.now() + 60000), httpOnly: true});
+    res.cookie(config.get('auth_header'), token, {expires: new Date(Date.now() + 600000), httpOnly: true});
     res.redirect('/home');
 }
 

@@ -2,4 +2,12 @@ extends layout
 
 block content
     div
-        p Show list of invited videos
+        ul(id='messages')
+
+        form(action='')
+            input(id='new_msg')
+            button Send
+
+    script(src='/socket.io/socket.io.js')
+    script(src='https://code.jquery.com/jquery-1.11.1.js')
+    script(src='/javascripts/realtime_chat.js')
