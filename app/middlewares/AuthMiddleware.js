@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const config = require('config');
-const _ = require('lodash');
+const userModel = require('../models/User');
 
 function auth(req, res, next) {
     const token = req.cookies[config.get('auth_header')];
@@ -10,7 +10,7 @@ function auth(req, res, next) {
     }
     try {
         const result = jwt.verify(token, config.get('private_key'));
-        // const user = ;
+        req.user = new userModel.User({_id: result._id, username: result.username});
         next();
     } catch (e) {
         res.redirect('/');
@@ -25,12 +25,11 @@ function guest(req, res, next) {
     }
     try {
         const result = jwt.verify(token, config.get('private_key'));
-        // const user = ;
+        req.user = new userModel.User({_id: result._id, username: result.username});
         res.redirect('/home');
     } catch (e) {
         next();
     }
 }
 
-module.exports.auth = auth;
-module.exports.guest = guest;
+module.exports = {auth, guest};

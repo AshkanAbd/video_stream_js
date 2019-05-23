@@ -5,7 +5,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const appDebugger = require('debug')('app:app');
-
 const app = express();
 
 // Load routes
