@@ -4,8 +4,13 @@ block content
     div
         p Start to broadcasting video
 
+        video(id='video_player' width=640 height=480)
+
+        form(action='' id='form')
+            button Record
+
         ul(id='messages')
 
     script(src='/socket.io/socket.io.js')
     script(src='https://code.jquery.com/jquery-1.11.1.js')
-    script(src='/javascripts/realtime_chat_watcher.js')
+    script(src='/javascripts/realtime_chat_broadcaster.js')

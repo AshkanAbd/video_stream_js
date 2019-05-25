@@ -3,10 +3,14 @@
 <head><title></title></head>
 <body>
 <div><p>Start to broadcasting video</p>
+    <video id="video_player" width="640" height="480"></video>
+    <form action="" id="form">
+        <button>Record</button>
+    </form>
     <ul id="messages"></ul>
 </div>
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-<script src="/javascripts/realtime_chat_watcher.js"></script>
+<script src="/javascripts/realtime_chat_broadcaster.js"></script>
 </body>
 </html>
