@@ -14,4 +14,15 @@ $(function () {
     socket.on('msg', function (msg) {
         $('#messages').append($('<li>').text(msg));
     });
+
+    socket.on('live_stream', function (stream) {
+        // const video = document.getElementById('video_player');
+        // video.srcObject = stream;
+        // video.play();
+
+        var blob = new Blob([stream], {type: "video/webm"});
+        const video = document.getElementById('video_player');
+        video.src = window.URL.createObjectURL(blob);
+
+    });
 });

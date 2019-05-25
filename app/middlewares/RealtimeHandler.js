@@ -18,6 +18,10 @@ function init(io) {
             const msg = `${result.username}: ${input.msg}`;
             io.emit('msg', msg);
         });
+
+        socket.on('live_stream', (stream) => {
+            socket.broadcast.emit('live_stream', stream);
+        })
     });
 }
 

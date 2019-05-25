@@ -4,7 +4,7 @@ block content
     div
         p Start to broadcasting video
 
-        video(id='video_player' width=640 height=480)
+        video(id='video_player' width=640 height=480 autoplay)
 
         form(action='' id='form')
             button Record
@@ -13,4 +13,5 @@ block content
 
     script(src='/socket.io/socket.io.js')
     script(src='https://code.jquery.com/jquery-1.11.1.js')
+    script(src='/javascripts/MediaStreamRecorder.js')
     script(src='/javascripts/realtime_chat_broadcaster.js')

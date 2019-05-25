@@ -10,7 +10,7 @@ const app = express();
 
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
-const chatSetup = require('./middlewares/RealtimeChatHandler');
+const chatSetup = require('./middlewares/RealtimeHandler');
 
 // Load socket io
 chatSetup.inti(io);
