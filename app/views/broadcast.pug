@@ -1,4 +1,4 @@
-extends layout
+extends layout/app
 
 block content
     div
@@ -7,11 +7,22 @@ block content
         video(id='video_player' width=640 height=480 autoplay)
 
         form(action='' id='form')
+            div(id='broadcast_title')
+                label Title:
+                input(name='title', type='text')
+
+            div(id='user_checkboxes')
+                each user in userList
+                    input(type='checkbox' name=user.username)
+                    label= user.username
+                    br
+            p
             button Record
+
 
         ul(id='messages')
 
     script(src='/socket.io/socket.io.js')
     script(src='https://code.jquery.com/jquery-1.11.1.js')
     script(src='/javascripts/MediaStreamRecorder.js')
-    script(src='/javascripts/realtime_chat_broadcaster.js')
+    script(src='/javascripts/realtime_broadcaster.js')

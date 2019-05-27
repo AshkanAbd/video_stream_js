@@ -1,0 +1,15 @@
+extends layout/app
+
+block content
+    div
+        ul
+        each item in list
+            li
+                a(href=`/home/watch/${item._id}`) watch
+                br
+                label=`Title= ${item.title}`
+                br
+                label=`Owner= ${item.owner}`
+                br
+                label=`Finished= ${item.finished}`
+

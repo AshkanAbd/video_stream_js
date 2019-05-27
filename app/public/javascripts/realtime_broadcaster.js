@@ -1,8 +1,5 @@
 $(function () {
     const socket = io();
-    socket.on('msg', function (msg) {
-        $('#messages').append($('<li>').text(msg));
-    });
     $('#form').submit(function (e) {
         e.preventDefault();
         navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
@@ -42,15 +39,29 @@ $(function () {
     });
 
     function success(stream) {
-        const videoPlayer = document.getElementById('video_player');
-        videoPlayer.srcObject = stream;
-        const mediaRecorder = new MediaStreamRecorder(stream);
-        mediaRecorder.mimeType = 'video/mp4';
-        mediaRecorder.ondataavailable = function (blob) {
-            mediaRecorder.onStartedDrawingNonBlankFrames();
-            socket.emit('live_stream', blob);
-        };
-        mediaRecorder.start(500);
+        const selectedUsers = [];
+        $('#user_checkboxes input:checked').each(function () {
+            selectedUsers.push($(this).attr('name'));
+        });
+        const title = $('#broadcast_title input:text').val();
+        const msg = {title: title, invited: selectedUsers};
+        socket.emit('invited_users', msg);
+
+        socket.on('id', (_id) => {
+            const videoPlayer = document.getElementById('video_player');
+            videoPlayer.srcObject = stream;
+            const mediaRecorder = new MediaStreamRecorder(stream);
+            mediaRecorder.mimeType = 'video/mp4';
+            mediaRecorder.ondataavailable = function (blob) {
+                mediaRecorder.onStartedDrawingNonBlankFrames();
+                socket.emit(`${_id}_stream`, blob);
+            };
+            mediaRecorder.start(500);
+
+            socket.on(`${_id}_msg`, function (msg) {
+                $('#messages').append($('<li>').text(msg));
+            });
+        });
     }
 
     function fails(err) {

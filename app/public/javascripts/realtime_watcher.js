@@ -7,15 +7,15 @@ $(function () {
             msg: input.val(),
             // auth: document.cookie
         };
-        socket.emit('msg', msg);
+        socket.emit(`${window.location.pathname.split("/")[3]}_msg`, msg);
         input.val('');
         return false;
     });
-    socket.on('msg', function (msg) {
+    socket.on(`${window.location.pathname.split("/")[3]}_msg`, function (msg) {
         $('#messages').append($('<li>').text(msg));
     });
 
-    socket.on('live_stream', function (stream) {
+    socket.on(`${window.location.pathname.split("/")[3]}_stream`, function (stream) {
         // const video = document.getElementById('video_player');
         // video.srcObject = stream;
         // video.play();
