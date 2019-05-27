@@ -19,6 +19,11 @@ router.get('/watch/:live_id', authMiddleware.auth, async (req, res, next) => {
             next();
             return;
         }
+        if (live.invited.indexOf(req.user.username) === -1) {
+            res.status(404);
+            next();
+            return;
+        }
     } catch (e) {
         res.status(404);
         next();
