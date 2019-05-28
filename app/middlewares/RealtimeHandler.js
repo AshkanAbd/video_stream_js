@@ -10,6 +10,7 @@ function getCookie(name, cookie) {
 // Load socket IO and realtime chat
 function init(io) {
     io.on('connection', (socket) => {
+        const msgEvent = '_msg';
         socket.on('invited_users', async (msg) => {
             const cookies = socket.handshake.headers.cookie;
             const token = getCookie(config.get('auth_header'), cookies);
@@ -22,19 +23,21 @@ function init(io) {
 
             socket.emit('id', lives._id);
 
-            socket.on(`${lives._id}_stream`, (stream) => {
-                socket.broadcast.emit(`${lives._id}_stream`, stream);
-            });
+            const streamEvent = `${lives._id}_stream`;
 
-            socket.on(`${lives._id}_msg`, (input) => {
-                const cookies = socket.handshake.headers.cookie;
-                const token = getCookie(config.get('auth_header'), cookies);
-                if (!token) return;
-                const result = jwt.verify(token, config.get('private_key'));
-                if (!result) return;
-                const msg = `${result.username}: ${input.msg}`;
-                io.emit(`${lives._id}_msg`, msg);
+            socket.on(streamEvent, (stream) => {
+                socket.broadcast.emit(streamEvent, stream);
             });
+        });
+
+        socket.on(msgEvent, (input) => {
+            const cookies = socket.handshake.headers.cookie;
+            const token = getCookie(config.get('auth_header'), cookies);
+            if (!token) return;
+            const result = jwt.verify(token, config.get('private_key'));
+            if (!result) return;
+            const msg = `${result.username}: ${input.msg}`;
+            io.emit(`${input.room}_msg`, msg);
         });
     });
 }

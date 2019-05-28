@@ -40,8 +40,7 @@ router.get('/', authMiddleware.auth, (req, res) => homeController.index(req, res
 router.get('/invited', authMiddleware.auth, async (req, res) => {
     const username = req.user.username;
     const liveList = await Lives.find({"invited": username}).select({title: 1, owner: 1, finished: 1});
-    const list = liveList.length !== 0 ? liveList : ['No Live for you'];
-    res.render('invited', {title: 'Invited list', list: list});
+    res.render('invited', {title: 'Invited list', list: liveList, error: 'No live video for you'});
 });
 
 module.exports = router;
