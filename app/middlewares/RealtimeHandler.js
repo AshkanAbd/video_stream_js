@@ -24,9 +24,15 @@ function init(io) {
             socket.emit('id', lives._id);
 
             const streamEvent = `${lives._id}_stream`;
+            const closeEvent = `${lives._id}_close`;
 
             socket.on(streamEvent, (stream) => {
                 socket.broadcast.emit(streamEvent, stream);
+            });
+
+            socket.on(closeEvent, async () => {
+                lives.finished = true;
+                await lives.save();
             });
         });
 

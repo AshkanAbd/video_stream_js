@@ -71,8 +71,10 @@ $(function () {
             videoPlayer.srcObject = stream;
             const mediaRecorder = new MediaStreamRecorder(stream);
             mediaRecorder.mimeType = 'video/mp4';
+
             const streamEvent = `${_id}_stream`;
             const msgEvent = `${_id}_msg`;
+            const closeEvent = `${_id}_close`;
 
             mediaRecorder.ondataavailable = function (blob) {
                 mediaRecorder.onStartedDrawingNonBlankFrames();
@@ -83,12 +85,14 @@ $(function () {
             socket.on(msgEvent, function (msg) {
                 $('#messages').append($('<li>').text(msg));
             });
+
+            $(window).bind('beforeunload', function () {
+                socket.emit(closeEvent);
+            });
         });
     }
 
     function fails(err) {
         alert("Can't access media devices");
     }
-
-
 });
