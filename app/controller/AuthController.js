@@ -78,4 +78,9 @@ function signUp(req, res) {
     res.render('auth/sign_up', {title: 'Sign up'})
 }
 
-module.exports = {signIn, signInPost, createUser, signUp};
+function signOut(req, res) {
+    res.clearCookie(config.get('auth_header'));
+    res.redirect('/');
+}
+
+module.exports = {signIn, signInPost, createUser, signUp, signOut};

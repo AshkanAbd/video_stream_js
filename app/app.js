@@ -18,8 +18,7 @@ chatSetup.inti(io);
 // Load routes
 const rootRouter = require('./routes');
 const homeRouter = require('./routes/home');
-const signInRouter = require('./routes/auth/sign_in');
-const signUpRouter = require('./routes/auth/sign_up');
+const authRouter = require('./routes/auth/auth');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -35,8 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Define routes
 app.use('/', rootRouter);
-app.use('/sign_in', signInRouter);
-app.use('/sign_up', signUpRouter);
+app.use('/account', authRouter);
 app.use('/home', homeRouter);
 
 // catch 404 and forward to error handler

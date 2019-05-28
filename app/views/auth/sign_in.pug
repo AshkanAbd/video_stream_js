@@ -2,7 +2,7 @@ extends ../layout/app
 
 block content
     div
-        form(method='POST', action='/sign_in')
+        form(method='POST', action='/account/sign_in')
             p Email:
                 input(name='email', type='email')
                 p= email_not_exist
