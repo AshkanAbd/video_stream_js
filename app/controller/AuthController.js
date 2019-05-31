@@ -10,7 +10,7 @@ async function signInPost(req, res) {
     }
     const email = req.body.email;
     const password = req.body.password;
-    const user = await userModel.findUser(email);
+    const user = await userModel.User.findOne({email: email});
     if (user === null) {
         res.render('auth/sign_in', {title: 'Sign in', email_not_exist: 'No such email'});
         return;
@@ -22,7 +22,12 @@ async function signInPost(req, res) {
         return;
     }
     const token = user.addAuthToken();
-    res.cookie(config.get('auth_header'), token, {expires: new Date(Date.now() + 600000000), httpOnly: true});
+    const options = {
+        httpOnly: true,
+        signed: true,
+        maxAge: 1000 * 60 * 60 * 24 * 30
+    };
+    res.cookie(config.get('auth_header'), token, options);
     res.redirect('/home');
 }
 
@@ -38,14 +43,14 @@ async function createUser(req, res) {
     let password = req.body.password;
     const repassword = req.body.repassword;
 
-    let user = await userModel.findUser(email);
+    let user = await userModel.User.findOne({email: email});
 
     if (user) {
         res.render('auth/sign_up', {title: 'Sign up', email_exist: "Email exist in database"});
         return;
     }
 
-    user = await userModel.findUserByUsername(username);
+    user = await userModel.User.findOne({username: username});
 
     if (user) {
         res.render('auth/sign_up', {title: 'Sign up', username_exist: "Username exist in database"});
@@ -65,7 +70,12 @@ async function createUser(req, res) {
 
     const token = user.addAuthToken();
 
-    res.cookie(config.get('auth_header'), token, {expires: new Date(Date.now() + 60000), httpOnly: true});
+    const options = {
+        httpOnly: true,
+        signed: true,
+        maxAge: 1000 * 60 * 60 * 24 * 30
+    };
+    res.cookie(config.get('auth_header'), token, options);
     res.redirect('/home');
 }
 

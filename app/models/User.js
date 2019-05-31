@@ -17,21 +17,13 @@ userSchema.methods.addAuthToken = function () {
 
 const User = mongoose.model('users', userSchema);
 
-function findUser(email) {
-    return User.findOne({email: email});
-}
-
-function findUserByUsername(username) {
-    return User.findOne({username: username});
-}
-
-function createUser(username, email, password) {
+async function createUser(username, email, password) {
     const user = new User({
         username: username,
         email: email,
         password: password
     });
-    user.save();
+    await user.save();
     return user;
 }
 
@@ -53,4 +45,4 @@ function validatorSignIn(user) {
     return Joi.validate(user, schema);
 }
 
-module.exports = {User, findUser, findUserByUsername, createUser, validatorSignIn, validatorSignUp};
+module.exports = {User, createUser, validatorSignIn, validatorSignUp};
