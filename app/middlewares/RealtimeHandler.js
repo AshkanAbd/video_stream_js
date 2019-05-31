@@ -3,7 +3,7 @@ const config = require('config');
 const Lives = require('../models/Lives');
 
 function getCookie(name, cookie) {
-    var found = cookie.split(';').filter(c => c.trim().split("=")[0] === name);
+    const found = cookie.split(';').filter(c => c.trim().split("=")[0] === name);
     return found.length > 0 ? found[0].split("=")[1] : null;
 }
 
@@ -31,7 +31,6 @@ function init(io) {
 
                 socket1.broadcast.emit('msg', `${result.username} connected`);
 
-
                 socket1.on('stream', (stream) => {
                     socket1.broadcast.emit('stream', stream);
                 });
@@ -44,6 +43,10 @@ function init(io) {
                 socket1.on('msg', (input) => {
                     const msg = `${result.username}: ${input.msg}`;
                     namespaceSocket.emit('msg', msg);
+                });
+
+                socket1.on('disconnect', () => {
+                    socket1.broadcast.emit('msg', `${result.username} disconnected`);
                 });
             });
 
