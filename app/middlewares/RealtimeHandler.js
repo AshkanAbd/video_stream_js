@@ -10,7 +10,6 @@ function getCookie(name, cookie) {
 // Load socket IO and realtime chat
 function init(io) {
     io.on('connection', (socket) => {
-        const msgEvent = '_msg';
         socket.on('invited_users', async (msg) => {
             const cookies = socket.handshake.headers.cookie;
             const token = getCookie(config.get('auth_header'), cookies);
@@ -21,29 +20,34 @@ function init(io) {
             const lives = new Lives({owner: result.username, title: msg.title, invited: msg.invited, finished: false});
             await lives.save();
 
+            const namespaceSocket = io.of(`/${lives._id}`);
+
+            namespaceSocket.on('connection', function (socket1) {
+                const cookies = socket1.handshake.headers.cookie;
+                const token = getCookie(config.get('auth_header'), cookies);
+                if (!token) return;
+                const result = jwt.verify(token, config.get('private_key'));
+                if (!result) return;
+
+                socket1.broadcast.emit('msg', `${result.username} connected`);
+
+
+                socket1.on('stream', (stream) => {
+                    socket1.broadcast.emit('stream', stream);
+                });
+
+                socket1.on('close', async () => {
+                    lives.finished = true;
+                    await lives.save();
+                });
+
+                socket1.on('msg', (input) => {
+                    const msg = `${result.username}: ${input.msg}`;
+                    namespaceSocket.emit('msg', msg);
+                });
+            });
+
             socket.emit('id', lives._id);
-
-            const streamEvent = `${lives._id}_stream`;
-            const closeEvent = `${lives._id}_close`;
-
-            socket.on(streamEvent, (stream) => {
-                socket.broadcast.emit(streamEvent, stream);
-            });
-
-            socket.on(closeEvent, async () => {
-                lives.finished = true;
-                await lives.save();
-            });
-        });
-
-        socket.on(msgEvent, (input) => {
-            const cookies = socket.handshake.headers.cookie;
-            const token = getCookie(config.get('auth_header'), cookies);
-            if (!token) return;
-            const result = jwt.verify(token, config.get('private_key'));
-            if (!result) return;
-            const msg = `${result.username}: ${input.msg}`;
-            io.emit(`${input.room}_msg`, msg);
         });
     });
 }

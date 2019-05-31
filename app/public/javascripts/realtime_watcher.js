@@ -1,26 +1,23 @@
 $(function () {
-    const socket = io();
-    const receiveMsgEvent = `${window.location.pathname.split("/")[3]}_msg`;
-    const sendMsgEvent = `_msg`;
-    const streamEvent = `${window.location.pathname.split("/")[3]}_stream`;
+    const namespace = window.location.pathname.split("/")[3];
+    const socket = io(`/${namespace}`);
 
     $('form').submit(function (e) {
         e.preventDefault();
         const input = $('#new_msg');
         const msg = {
             msg: input.val(),
-            room: window.location.pathname.split("/")[3]
         };
 
-        socket.emit(sendMsgEvent, msg);
+        socket.emit('msg', msg);
         input.val('');
         return false;
     });
-    socket.on(receiveMsgEvent, function (msg) {
+    socket.on('msg', function (msg) {
         $('#messages').append($('<li>').text(msg));
     });
 
-    socket.on(streamEvent, function (stream) {
+    socket.on('stream', function (stream) {
         var blob = new Blob([stream], {type: "video/webm"});
         const video = document.getElementById('video_player');
         video.src = window.URL.createObjectURL(blob);
