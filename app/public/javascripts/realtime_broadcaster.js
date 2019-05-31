@@ -9,8 +9,12 @@ $(function () {
         //     video: true, audio: true
         // }, success, fails);
 
-        var constraints = {video: true, audio: true};
-        navigator.mediaDevices.getUserMedia(constraints).then(success).catch(fails);
+        try {
+            var constraints = {video: true, audio: true};
+            navigator.mediaDevices.getUserMedia(constraints).then(success).catch(fails);
+        } catch (e) {
+            browserError();
+        }
         return false;
     });
 
@@ -61,5 +65,9 @@ $(function () {
 
     function fails(err) {
         alert("Can't access media devices");
+    }
+
+    function browserError() {
+        alert("Browser does'nt support");
     }
 });
