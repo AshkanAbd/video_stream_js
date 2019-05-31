@@ -31,7 +31,7 @@ $(function () {
 
             const namespaceSocket = io(`/${_id}`);
 
-            var mediaRecorder = new MediaRecorder(mediaStream);
+            const mediaRecorder = new MediaRecorder(mediaStream);
             const videoPlayer = document.getElementById('video_player');
             videoPlayer.srcObject = mediaStream;
             mediaRecorder.onstart = function (e) {
@@ -50,7 +50,7 @@ $(function () {
             setInterval(function () {
                 mediaRecorder.stop();
                 mediaRecorder.start()
-            }, 500);
+            }, 100);
 
             namespaceSocket.on('msg', function (msg) {
                 $('#messages').append($('<li>').text(msg));

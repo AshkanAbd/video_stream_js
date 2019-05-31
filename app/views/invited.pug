@@ -6,12 +6,14 @@ block content
             ul
             each item in list
                 li
-                    a(href=`/home/watch/${item._id}`) watch
-                    br
-                    label=`Title= ${item.title}`
-                    br
-                    label=`Owner= ${item.owner}`
-                    br
-                    label=`Finished= ${item.finished}`
+                    p
+                        a(href=`/home/watch/${item._id}`) watch
+                        br
+                        label=`Title= ${item.title}`
+                        br
+                        label=`Owner= ${item.owner}`
+                        br
+                        label=`Finished= ${item.finished}`
+
         else
             p=error
