@@ -2,15 +2,12 @@ $(function () {
     const socket = io();
     $('#form').submit(function (e) {
         e.preventDefault();
-        navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
-            navigator.mozGetUserMedia || navigator.msGetUserMedia;
-
-        // navigator.getMedia({
-        //     video: true, audio: true
-        // }, success, fails);
+        navigator.getMedia = navigator.getUserMedia || navigator.webKitGetUserMedia || navigator.moxGetUserMedia
+            || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
         try {
             var constraints = {video: true, audio: true};
+            // navigator.getMedia(constraints, success, fails);
             navigator.mediaDevices.getUserMedia(constraints).then(success).catch(fails);
         } catch (e) {
             browserError();
@@ -68,6 +65,6 @@ $(function () {
     }
 
     function browserError() {
-        alert("Browser does'nt support");
+        alert("Browser doesn't support");
     }
 });
