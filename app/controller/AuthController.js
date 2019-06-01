@@ -24,7 +24,6 @@ async function signInPost(req, res) {
     const token = user.addAuthToken();
     const options = {
         httpOnly: true,
-        signed: true,
         maxAge: 1000 * 60 * 60 * 24 * 30
     };
     res.cookie(config.get('auth_header'), token, options);
@@ -72,7 +71,6 @@ async function createUser(req, res) {
 
     const options = {
         httpOnly: true,
-        signed: true,
         maxAge: 1000 * 60 * 60 * 24 * 30
     };
     res.cookie(config.get('auth_header'), token, options);
