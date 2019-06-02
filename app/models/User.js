@@ -1,7 +1,7 @@
-import mongoose from 'mongoose';
-import config from 'config';
-import jwt from 'jsonwebtoken';
-import Joi from 'joi';
+const mongoose = require('mongoose');
+const config = require('config');
+const jwt = require('jsonwebtoken');
+const Joi = require('joi');
 
 mongoose.connect('mongodb://localhost/video_stream', {useNewUrlParser: true});
 
@@ -27,14 +27,15 @@ userSchema.methods.addAuthToken = function () {
     return jwt.sign({_id: this.id, username: this.username}, config.get('private_key'));
 };
 
-userSchema.methods.signUpValidator = (user) => {
-    return Joi.validate(user, signUpSchema);
-};
-
-userSchema.methods.signInValidator = function (user) {
-    return Joi.validate(user, signInSchema);
-};
-
 const User = mongoose.model('users', userSchema);
+
+User.signUpValidator = (user) => {
+    return Joi.validate(user, signUpSchema);
+
+};
+User.signInValidator = function (user) {
+    return Joi.validate(user, signInSchema);
+
+};
 
 module.exports = User;

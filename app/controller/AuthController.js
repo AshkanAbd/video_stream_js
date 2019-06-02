@@ -1,6 +1,6 @@
-import User from '../models/User';
-import bcrypt from 'bcrypt';
-import config from 'config';
+const User = require('../models/User');
+const bcrypt = require('bcrypt');
+const config = require('config');
 
 async function signInPost(req, res) {
     const {error} = User.signInValidator(req.body);

@@ -1,6 +1,6 @@
-import jwt from 'jsonwebtoken';
-import config from 'config';
-import User from '../models/User';
+const jwt = require('jsonwebtoken');
+const config = require('config');
+const User = require('../models/User');
 
 function auth(req, res, next) {
     const token = req.cookies[config.get('auth_header')];

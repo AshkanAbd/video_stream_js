@@ -1,5 +1,5 @@
-import Lives from '../models/Lives';
-import User from '../models/User';
+const Lives = require('../models/Lives');
+const User = require('../models/User');
 
 async function broadcast(req, res) {
     const username = req.user.username;

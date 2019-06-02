@@ -1,6 +1,6 @@
-import express from 'express';
-import authMiddleware from '../middlewares/AuthMiddleware';
-import homeController from '../controller/HomeController';
+const express = require('express');
+const authMiddleware = require('../middlewares/AuthMiddleware');
+const homeController = require('../controller/HomeController');
 
 const router = express.Router();
 
