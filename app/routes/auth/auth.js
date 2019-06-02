@@ -1,7 +1,8 @@
-const express = require('express');
+import express from 'express';
+import authMiddleware from '../../middlewares/AuthMiddleware';
+import authController from '../../controller/AuthController';
+
 const router = express.Router();
-const authMiddleware = require('../../middlewares/AuthMiddleware');
-const authController = require('../../controller/AuthController');
 
 router.get('/sign_in', authMiddleware.guest, (req, res) => authController.signIn(req, res));
 

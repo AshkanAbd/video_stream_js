@@ -1,7 +1,8 @@
-const express = require('express');
+import express from 'express';
+import authMiddleware from '../middlewares/AuthMiddleware';
+import homeController from '../controller/HomeController';
+
 const router = express.Router();
-const authMiddleware = require('../middlewares/AuthMiddleware');
-const homeController = require('../controller/HomeController');
 
 router.get('/broadcast', authMiddleware.auth, async (req, res) => homeController.broadcast(req, res));
 

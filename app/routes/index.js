@@ -1,6 +1,7 @@
-const express = require('express');
+import express from 'express';
+import authMiddleware from '../middlewares/AuthMiddleware';
+
 const router = express.Router();
-const authMiddleware = require('../middlewares/AuthMiddleware');
 
 router.get('/', authMiddleware.guest, (req, res) => {
     res.render('index', {title: 'Home'});

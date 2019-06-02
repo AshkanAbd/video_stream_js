@@ -1,9 +1,9 @@
-const Lives = require('../models/Lives');
-const userModel = require('../models/User');
+import Lives from '../models/Lives';
+import User from '../models/User';
 
 async function broadcast(req, res) {
     const username = req.user.username;
-    const users = await userModel.User.find({username: {$ne: username}}).select({'username': 1});
+    const users = await User.find({username: {$ne: username}}).select({'username': 1});
     res.render('broadcast', {title: 'Broadcast', userList: users, username: username});
 }
 

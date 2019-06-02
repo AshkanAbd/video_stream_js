@@ -1,16 +1,16 @@
-const userModel = require('../models/User');
-const bcrypt = require('bcrypt');
-const config = require('config');
+import User from '../models/User';
+import bcrypt from 'bcrypt';
+import config from 'config';
 
 async function signInPost(req, res) {
-    const {error} = userModel.validatorSignIn(req.body);
+    const {error} = User.signInValidator(req.body);
     if (error) {
         res.render('auth/sign_in', {title: 'Sign in', total_error: error.details[0].message});
         return;
     }
     const email = req.body.email;
     const password = req.body.password;
-    const user = await userModel.User.findOne({email: email});
+    const user = await User.findOne({email: email});
     if (user === null) {
         res.render('auth/sign_in', {title: 'Sign in', email_not_exist: 'No such email'});
         return;
@@ -31,7 +31,7 @@ async function signInPost(req, res) {
 }
 
 async function createUser(req, res) {
-    const {error} = userModel.validatorSignUp(req.body);
+    const {error} = User.signUpValidator(req.body);
     if (error) {
         res.render('auth/sign_up', {title: 'Sign in', total_error: error.details[0].message});
         return;
@@ -42,14 +42,14 @@ async function createUser(req, res) {
     let password = req.body.password;
     const repassword = req.body.repassword;
 
-    let user = await userModel.User.findOne({email: email});
+    let user = await User.findOne({email: email});
 
     if (user) {
         res.render('auth/sign_up', {title: 'Sign up', email_exist: "Email exist in database"});
         return;
     }
 
-    user = await userModel.User.findOne({username: username});
+    user = await User.findOne({username: username});
 
     if (user) {
         res.render('auth/sign_up', {title: 'Sign up', username_exist: "Username exist in database"});
@@ -65,7 +65,8 @@ async function createUser(req, res) {
     const salt = await bcrypt.genSalt(10);
     password = await bcrypt.hash(password, salt);
 
-    user = await userModel.createUser(username, email, password);
+    user = new User({username: username, email: email, password: password});
+    await user.save();
 
     const token = user.addAuthToken();
 

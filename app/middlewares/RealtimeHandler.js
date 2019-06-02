@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken');
-const config = require('config');
-const Lives = require('../models/Lives');
+import jwt from 'jsonwebtoken';
+import config from 'config';
+import Lives from '../models/Lives';
 
 function getCookie(name, cookie) {
     const found = cookie.split(';').filter(c => c.trim().split("=")[0] === name);
