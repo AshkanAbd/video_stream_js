@@ -53,5 +53,7 @@ app.use(function (err, req, res, next) {
     res.render('error', {title: 'Error', errorCode: `Error : ${err.status}`});
 });
 
-http.listen(config.get("port"));
-appDebugger(`Port: ${config.get("port")}`);
+const port = config.get("port");
+http.listen(port);
+appDebugger(`Port: ${port}`);
+console.log(`Check: http://localhost:${port}/`);
