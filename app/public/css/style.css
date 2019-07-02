@@ -233,9 +233,10 @@ a:link {
 }
 
 .msg_text {
-    width: 150px;
+    width: 145px;
     font-size: 14px;
-    padding: 2px;
+    margin-right: 2px;
+    padding: 2px 1px 2px 1px;
 }
 
 .msg_btn {
