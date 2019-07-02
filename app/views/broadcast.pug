@@ -1,26 +1,22 @@
-extends layout/auth_app
+extends layout/app
 
 block content
-    div
-        br
-        br
-
-        video(id='video_player' width=640 height=480 autoplay)
-
+    div(class='video_recorder')
+        video(id='video_player' width=960 height=540 autoplay)
+    div(class='stream_info')
         form(action='' id='form')
             div(id='broadcast_title')
-                label Title:
-                input(name='title', type='text')
-
+                input(class='broadcast_title' name='title' type='text' placeholder='Title')
             div(id='user_checkboxes')
                 each user in userList
-                    input(type='checkbox' name=user.username)
-                    label= user.username
-                    br
-            p
-            button Record
-
-
+                    div
+                        label(id='user_item')
+                            input(type='checkbox' name=user.username)
+                            |
+                            = '  '+user.username
+            button(class='record_btn') Record
+    div(class='watchers_chat')
+        h3(style='color:white; padding-bottom: 5px;') Messages:
         ul(id='messages')
 
     script(src='/socket.io/socket.io.js')

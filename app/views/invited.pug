@@ -1,19 +1,19 @@
-extends layout/auth_app
+extends layout/app
 
 block content
     div
         if list.length !== 0
             ul
             each item in list
-                li
-                    p
-                        a(href=`/home/watch/${item._id}`) watch
+                li(class='live_item')
+                    label(style='color: white; ')=`Course name: ${item.title} by ${item.owner}`
+                    br
+                    br
+                    if !item.finished
+                        a(class='live_watch' href=`/home/watch/${item._id}`) Click to watch!!!
                         br
-                        label=`Title= ${item.title}`
-                        br
-                        label=`Owner= ${item.owner}`
-                        br
-                        label=`Finished= ${item.finished}`
-
+                    else
+                        label(style='color: red;') 'This live was ended.'
+                    br
         else
             p=error

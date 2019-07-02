@@ -1,0 +1,14 @@
+doctype html
+
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/css/style.css', crossorigin='anonymous')
+
+    body(class='home_body')
+        header(class='header')
+            a(class='sign_out', href='/account/sign_out') SIGN OUT
+            a(class='home', href='/home') VideoStream
+            a(class='username', href='/home')=username
+
+        block content

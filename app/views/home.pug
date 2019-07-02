@@ -1,9 +1,9 @@
-extends layout/auth_app
+extends layout/home_app
 
 block content
     div
         p
-            a(href='/home/broadcast') Start live video stream
+            a(class='broadcast_link', href='/home/broadcast') Start live video stream
 
         p
-            a(href='/home/invited') Watch other users video
+            a(class='invited_link', href='/home/invited') Watch other users video

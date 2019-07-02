@@ -1,8 +1,73 @@
-extends layout/app
+link(rel='stylesheet', href='/css/auth_style.css', crossorigin='anonymous')
+body
+    .container_SignUp
+        // Sign In - Hero Image
+        .heroSignInBackground
+            .heroSignInBackgroundOverlay
+                .containerHeroSignIn
+                    .signInContent
+                        h1 Hello friend, welcome!
+                        |
+                        hr
+                        |
+                        p
+                            | Login your details to start
+                            br
+                            | your course.
+                    |
+                    .heroSignInButton
+                        button.buttonHeroSignIn(onclick='signIn()') SIGN IN
+        // Sign Up - Form
+        .containerSignUp
+            .socialIcons
+                h1 Create Account
+            |
+            .containerFormSignUp
+                form(method='POST', action='/account/sign_up')
+                    input(name='username', type='text', placeholder='Username')
+                    p= sign_up_username_exist
+                    |
+                    input(name='email', type='email', placeholder='Email')
+                    p= sign_up_email_exist
+                    |
+                    input(name='password', type='password', placeholder='Password')
+                    p= sign_up_password_error
+                    |
+                    .formSignUpButton
+                        button.buttonFormSignUp SIGN UP
+                        p= sign_up_total_error
+    #container_SignIn.container_SignIn
+        // Sign In - Form
+        .containerSignIn
+            .socialIcons
+                h1 Sign In
+            |
+            .containerFormSignIn
+                form(method='POST', action='/account/sign_in')
+                    input(name='email', type='email', placeholder='Email')
+                    p= sign_in_email_not_exist
+                    |
+                    input(name='password', type='password', placeholder='Password')
+                    p= sign_in_invalid_password
+                    |
+                    .formSignInButton
+                        button.buttonFormSignIn SIGN IN
+                        p= sign_in_total_error
 
-block content
-    div
-        p
-            a(href='/account/sign_in') Sign in
-        p
-            a(href='/account/sign_up') Sign up
+        // Sign Up - Hero Image
+        #containerHeroSignUp.heroSignUpBackground
+            .heroSignUpBackgroundOverlay
+                .containerHeroSignUp
+                    .signUpContent
+                        h1 Not a member?
+                        |
+                        hr
+                        |
+                        p
+                            | Enter your personal details
+                            br
+                            | and start your course.
+                    |
+                    .heroSignUpButton(onclick='signUp()')
+                        button.buttonHeroSignUp SIGN UP
+    script(src='/javascripts/auth.js')

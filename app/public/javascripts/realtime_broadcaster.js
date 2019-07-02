@@ -2,11 +2,19 @@ $(function () {
     const socket = io();
     $('#form').submit(function (e) {
         e.preventDefault();
+        const title = $('#broadcast_title input:text').val();
+        if (title === '') {
+            alert('Title is empty!!!')
+            return false;
+        }
         navigator.getMedia = navigator.getUserMedia || navigator.webKitGetUserMedia || navigator.moxGetUserMedia
             || navigator.mozGetUserMedia || navigator.msGetUserMedia;
 
         try {
-            var constraints = {video: true, audio: true};
+            var constraints = {
+                audio: true,
+                video: {optional: [{Height: 540}, {minWidth: 960}]}
+            };
             // navigator.getMedia(constraints, success, fails);
             navigator.mediaDevices.getUserMedia(constraints).then(success).catch(fails);
         } catch (e) {
@@ -22,8 +30,10 @@ $(function () {
         });
         const title = $('#broadcast_title input:text').val();
         const msg = {title: title, invited: selectedUsers};
+        $('.stream_info').remove();
+        $('.watchers_chat').css({'visibility': 'visible'});
         socket.emit('invited_users', msg);
-
+        let counter = 1;
         socket.on('id', (_id) => {
 
             const namespaceSocket = io(`/${_id}`);
@@ -50,7 +60,12 @@ $(function () {
             }, 100);
 
             namespaceSocket.on('msg', function (msg) {
-                $('#messages').append($('<li>').text(msg));
+                if (counter %2 === 1){
+                    $('#messages').append($('<li class="broadcast_msg" style="color:green">').text(msg));
+                }else{
+                    $('#messages').append($('<li class="broadcast_msg" style="color:red">').text(msg));
+                }
+                counter++;
             });
 
             $(window).bind('beforeunload', function () {

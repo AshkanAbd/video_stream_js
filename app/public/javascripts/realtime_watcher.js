@@ -1,6 +1,7 @@
 $(function () {
     const namespace = window.location.pathname.split("/")[3];
     const socket = io(`/${namespace}`);
+    let counter = 1;
 
     $('form').submit(function (e) {
         e.preventDefault();
@@ -14,7 +15,12 @@ $(function () {
         return false;
     });
     socket.on('msg', function (msg) {
-        $('#messages').append($('<li>').text(msg));
+        if (counter %2 === 1){
+            $('#messages_watch').append($('<li class="broadcast_msg" style="color:green">').text(msg));
+        }else{
+            $('#messages_watch').append($('<li class="broadcast_msg" style="color:red">').text(msg));
+        }
+        counter++;
     });
 
     socket.on('stream', function (stream) {

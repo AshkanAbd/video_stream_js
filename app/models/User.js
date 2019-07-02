@@ -14,13 +14,12 @@ const userSchema = new mongoose.Schema({
 const signUpSchema = {
     username: Joi.string().min(4).max(50).required(),
     email: Joi.string().min(4).max(255).email().required(),
-    password: Joi.string().min(5).max(255).required(),
-    repassword: Joi.string().min(5).max(255).required(),
+    password: Joi.string().min(6).max(255).required()
 };
 
 const signInSchema = {
     email: Joi.string().min(4).max(255).email().required(),
-    password: Joi.string().min(5).max(255).required(),
+    password: Joi.string().required()
 };
 
 userSchema.methods.addAuthToken = function () {

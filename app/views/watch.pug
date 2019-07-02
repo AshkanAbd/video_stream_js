@@ -1,17 +1,15 @@
-extends layout/auth_app
+extends layout/app
 
 block content
-    div
-        br
-        br
+    div(class='video_recorder')
+        video(id='video_player' width=960 height=540)
+    div(class='watchers_chat' style='visibility: visible')
+        h3(style='color:white; padding-bottom: 5px;') Messages:
+        ul(id='messages_watch')
 
-        video(id='video_player' width=640 height=480)
-
-        ul(id='messages')
-
-        form(action='')
-            input(id='new_msg')
-            button Send
+        form(class='send_msg' action='')
+            input(class='msg_text' id='new_msg')
+            button(class='msg_btn') Send
 
     script(src='/socket.io/socket.io.js')
     script(src='/javascripts/jquery.js')
