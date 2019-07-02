@@ -6,6 +6,9 @@ $(function () {
     $('form').submit(function (e) {
         e.preventDefault();
         const input = $('#new_msg');
+        if (input.val() === ''){
+            return false;
+        }
         const msg = {
             msg: input.val(),
         };
